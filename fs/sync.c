@@ -170,11 +170,6 @@ SYSCALL_DEFINE1(syncfs, int, fd)
  */
 int vfs_fsync_range(struct file *file, loff_t start, loff_t end, int datasync)
 {
-
-#ifdef CONFIG_FSYNC_CONTROL
-	if (!fsynccontrol_fsync_enabled())
-		return 0;
-#endif
 #ifdef CONFIG_DYNAMIC_FSYNC
 	if (likely(dyn_fsync_active && !early_suspend_active))
 		return 0;
@@ -207,8 +202,9 @@ static int do_fsync(unsigned int fd, int datasync)
 {
 	struct file *file;
 	int ret = -EBADF;
+	int fput_needed;
 
-	file = fget(fd);
+	file = fget_light(fd, &fput_needed);
 	if (file) {
 		ret = vfs_fsync(file, datasync);
 		fput(file);
@@ -218,10 +214,6 @@ static int do_fsync(unsigned int fd, int datasync)
 
 SYSCALL_DEFINE1(fsync, unsigned int, fd)
 {
-#ifdef CONFIG_FSYNC_CONTROL
-	if (!fsynccontrol_fsync_enabled())
-	    return 0;
-#endif
 #ifdef CONFIG_DYNAMIC_FSYNC
 	if (likely(dyn_fsync_active && !early_suspend_active))
 		return 0;
@@ -232,11 +224,7 @@ SYSCALL_DEFINE1(fsync, unsigned int, fd)
 
 SYSCALL_DEFINE1(fdatasync, unsigned int, fd)
 {
-#ifdef CONFIG_FSYNC_CONTROL
-	if (!fsynccontrol_fsync_enabled())
-	    return 0;
-#endif
-#ifdef CONFIG_DYNAMIC_FSYNC
+#if 0
 	if (likely(dyn_fsync_active && !early_suspend_active))
 		return 0;
 	else
@@ -311,10 +299,6 @@ EXPORT_SYMBOL(generic_write_sync);
 SYSCALL_DEFINE(sync_file_range)(int fd, loff_t offset, loff_t nbytes,
 				unsigned int flags)
 {
-#ifdef CONFIG_FSYNC_CONTROL
-	if (!fsynccontrol_fsync_enabled())
-	    return 0;
-#endif
 #ifdef CONFIG_DYNAMIC_FSYNC
 	if (likely(dyn_fsync_active && !early_suspend_active))
 		return 0;
