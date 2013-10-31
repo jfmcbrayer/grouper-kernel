@@ -1,7 +1,7 @@
 VERSION = 3
 PATCHLEVEL = 1
 SUBLEVEL = 10
-EXTRAVERSION = -carcosa-a7
+EXTRAVERSION = -carcosa-a8
 NAME = "Divemaster Edition"
 
 # *DOCUMENTATION*
