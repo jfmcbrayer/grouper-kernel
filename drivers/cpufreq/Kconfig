@@ -58,6 +58,12 @@ config CPU_FREQ_DEFAULT_GOV_PERFORMANCE
 	  the frequency statically to the highest frequency supported by
 	  the CPU.
 
+config CPU_FREQ_DEFAULT_GOV_SMARTMAX
+	bool "smartmax"
+	select CPU_FREQ_GOV_SMARTMAX
+	help
+	  Makes smartmax the default governor. 
+
 config CPU_FREQ_DEFAULT_GOV_POWERSAVE
 	bool "powersave"
 	depends on EXPERT
@@ -130,6 +136,16 @@ config CPU_FREQ_GOV_PERFORMANCE
 
 	  To compile this driver as a module, choose M here: the
 	  module will be called cpufreq_performance.
+
+	  If in doubt, say Y.
+
+config CPU_FREQ_GOV_SMARTMAX
+	tristate "'smartmax' governor"
+	help
+	  smartmax ftw!
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called cpufreq_gaming.
 
 	  If in doubt, say Y.
 
