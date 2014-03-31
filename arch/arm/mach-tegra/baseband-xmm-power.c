@@ -38,6 +38,13 @@
 #include "pm-irq.h"
 MODULE_LICENSE("GPL");
 
+static unsigned int bb_timeout = 0;
+
+if ( bb_timeout < 1 ) {
+	bb_timeout = 1;
+}
+module_param(bb_timeout, uint, 0644):
+
 unsigned long modem_ver = XMM_MODEM_VER_1130;
 EXPORT_SYMBOL(modem_ver);
 
@@ -99,7 +106,7 @@ static struct baseband_power_platform_data *baseband_power_driver_data;
 static struct regulator *reg_grouper_hsic = NULL;    /* LDO7 */
 static int waiting_falling_flag = 0;
 static bool register_hsic_device;
-/* static struct wake_lock wakelock; */
+static struct wake_lock wakelock; 
 static struct wake_lock modem_recovery_wakelock;
 static struct usb_device *usbdev;
 static bool CP_initiated_L2toL0;
@@ -574,15 +581,16 @@ void baseband_xmm_set_power_status(unsigned int status)
 			baseband_modem_power_on(data);
 		}
 
-		/* if (!wake_lock_active(&wakelock)) 
-		 	wake_lock(&wakelock); */
+		 if (!wake_lock_active(&wakelock)) 
+		 	wake_lock_timeout(&wakelock, 100 * 
+bb_timeout); 
 
 		pr_debug("gpio host active high->\n");
 		break;
 	case BBXMM_PS_L2:
 		pr_info("L2\n");
 		baseband_xmm_powerstate = status;
-		/* wake_unlock(&wakelock); */
+		wake_unlock(&wakelock);
 		modem_sleep_flag = true;
 		break;
 	case BBXMM_PS_L3:
@@ -597,11 +605,11 @@ void baseband_xmm_set_power_status(unsigned int status)
 		}
 		pr_info("L3\n");
 		baseband_xmm_powerstate = status;
-		/* if (wake_lock_active(&wakelock)) { */
-		/* 	pr_info("%s: releasing wakelock before L3\n", */
-		/* 		__func__); */
-		/* 	wake_unlock(&wakelock); */
-		/* } */
+		if (wake_lock_active(&wakelock)) { 
+		 	pr_info("%s: releasing wakelock before L3\n", 
+	 		__func__); 
+		 	wake_unlock(&wakelock); 
+		} 
 		if (register_hsic_device != true && wakeup_pending == false) {
 			gpio_set_value(data->modem.xmm.ipc_hsic_active, 0);
 			pr_debug("gpio host active low->\n");
@@ -1097,7 +1105,7 @@ static int baseband_xmm_power_driver_probe(struct platform_device *device)
 	}*/
 
 	/* init wake lock */
-	/* wake_lock_init(&wakelock, WAKE_LOCK_SUSPEND, "baseband_xmm_power"); */
+	wake_lock_init(&wakelock, WAKE_LOCK_SUSPEND, "baseband_xmm_power");
 	wake_lock_init(&modem_recovery_wakelock, WAKE_LOCK_SUSPEND, "modem_recovery");
 
 	/* init spin lock */
