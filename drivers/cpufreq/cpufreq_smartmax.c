@@ -52,7 +52,7 @@
  * lowering the frequency towards the ideal frequency is faster than below it.
  */
 
-#define DEFAULT_SUSPEND_IDEAL_FREQ 368000
+#define DEFAULT_SUSPEND_IDEAL_FREQ 102000
 static unsigned int suspend_ideal_freq;
 
 #define DEFAULT_AWAKE_IDEAL_FREQ 768000
@@ -77,13 +77,13 @@ static unsigned int ramp_down_step;
 /*
  * CPU freq will be increased if measured load > max_cpu_load;
  */
-#define DEFAULT_MAX_CPU_LOAD 80
+#define DEFAULT_MAX_CPU_LOAD 95
 static unsigned int max_cpu_load;
 
 /*
  * CPU freq will be decreased if measured load < min_cpu_load;
  */
-#define DEFAULT_MIN_CPU_LOAD 50
+#define DEFAULT_MIN_CPU_LOAD 60
 static unsigned int min_cpu_load;
 
 /*
@@ -127,7 +127,7 @@ static bool boost = true;
 static unsigned int boost_duration = 0;
 
 /* Consider IO as busy */
-#define DEFAULT_IO_IS_BUSY 1
+#define DEFAULT_IO_IS_BUSY 0
 static unsigned int io_is_busy;
 
 #define DEFAULT_IGNORE_NICE 1
