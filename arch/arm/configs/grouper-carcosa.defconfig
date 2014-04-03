@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 3.1.10-carcosa-a21 Kernel Configuration
+# Linux/arm 3.1.10-carcosa-a22 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_HAVE_PWM=y
@@ -2956,7 +2956,7 @@ CONFIG_FAT_DEFAULT_CODEPAGE=437
 CONFIG_FAT_DEFAULT_IOCHARSET="iso8859-1"
 CONFIG_NTFS_FS=y
 # CONFIG_NTFS_DEBUG is not set
-# CONFIG_NTFS_RW is not set
+CONFIG_NTFS_RW=y
 
 #
 # Pseudo filesystems
