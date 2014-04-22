@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 3.1.10-carcosa-a23 Kernel Configuration
+# Linux/arm 3.1.10-carcosa-a24 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_HAVE_PWM=y
@@ -3073,6 +3073,7 @@ CONFIG_NLS_ISO8859_1=y
 # CONFIG_NLS_KOI8_R is not set
 # CONFIG_NLS_KOI8_U is not set
 # CONFIG_NLS_UTF8 is not set
+CONFIG_RESTRICT_ROOTFS_SLAVE=y
 
 #
 # Kernel hacking
