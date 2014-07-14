@@ -38,7 +38,7 @@
 #include "pm-irq.h"
 MODULE_LICENSE("GPL");
 
-static unsigned int bb_timeout = 1;
+static unsigned int bb_timeout = 10;
 module_param(bb_timeout, uint, 0644);
 
 int bb_timeout_val;
@@ -579,9 +579,9 @@ void baseband_xmm_set_power_status(unsigned int status)
 			baseband_modem_power_on(data);
 		}
 
-		 if (!wake_lock_active(&wakelock)) 
+		 if (!wake_lock_active(&wakelock) && bb_timeout > 0) 
 		 	bb_timeout_val = bb_timeout; 
-			wake_lock_timeout(&wakelock, 100 * bb_timeout_val); 
+			wake_lock_timeout(&wakelock, HZ/10 * bb_timeout_val); 
 
 		pr_debug("gpio host active high->\n");
 		break;
