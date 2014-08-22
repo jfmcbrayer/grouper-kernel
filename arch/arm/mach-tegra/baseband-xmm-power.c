@@ -38,7 +38,7 @@
 #include "pm-irq.h"
 MODULE_LICENSE("GPL");
 
-static unsigned int bb_timeout = 10;
+static unsigned int bb_timeout = 0;
 module_param(bb_timeout, uint, 0644);
 
 int bb_timeout_val;
