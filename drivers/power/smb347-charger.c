@@ -1038,7 +1038,7 @@ static void dockin_isr_work_function(struct work_struct *dat)
 	int dock_in = gpio_dock_in;
 	int ac_ok = GPIO_AC_OK;
 
-	wake_lock(&charger->wake_lock_dockin);
+	wake_lock_timeout(&charger->wake_lock_dockin, 10 * HZ);
 	mutex_lock(&charger->dockin_lock);
 
 	if (gpio_get_value(dock_in)) {
