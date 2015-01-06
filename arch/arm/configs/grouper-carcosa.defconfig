@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm 3.1.10-carcosa-a28 Kernel Configuration
+# Linux/arm 3.1.10-carcosa-a32 Kernel Configuration
 #
 CONFIG_ARM=y
 CONFIG_HAVE_PWM=y
