@@ -83,6 +83,8 @@ extern struct posix_acl *posix_acl_from_mode(umode_t, gfp_t);
 extern int posix_acl_equiv_mode(const struct posix_acl *, umode_t *);
 extern int posix_acl_create(struct posix_acl **, gfp_t, umode_t *);
 extern int posix_acl_chmod(struct posix_acl **, gfp_t, umode_t);
+extern int posix_acl_create(struct posix_acl **, gfp_t, mode_t *);
+extern int posix_acl_chmod(struct posix_acl **, gfp_t, mode_t);
 
 extern struct posix_acl *get_posix_acl(struct inode *, int);
 extern int set_posix_acl(struct inode *, int, struct posix_acl *);
@@ -117,6 +119,25 @@ static inline struct posix_acl *get_cached_acl(struct inode *inode, int type)
 static inline struct posix_acl *get_cached_acl_rcu(struct inode *inode, int type)
 {
 	return rcu_dereference(*acl_by_type(inode, type));
+}
+
+static inline int negative_cached_acl(struct inode *inode, int type)
+{
+        struct posix_acl **p, *acl;
+        switch (type) {
+        case ACL_TYPE_ACCESS:
+                p = &inode->i_acl;
+                break;
+        case ACL_TYPE_DEFAULT:
+                p = &inode->i_default_acl;
+                break;
+        default:
+                BUG();
+        }
+        acl = ACCESS_ONCE(*p);
+        if (acl)
+                return 0;
+        return 1;
 }
 
 static inline void set_cached_acl(struct inode *inode,
