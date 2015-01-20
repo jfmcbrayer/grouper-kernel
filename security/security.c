@@ -361,8 +361,8 @@ void security_inode_free(struct inode *inode)
 }
 
 int security_inode_init_security(struct inode *inode, struct inode *dir,
-				 const struct qstr *qstr, char **name,
-				 void **value, size_t *len)
+				     const struct qstr *qstr, char **name,
+				     void **value, size_t *len)
 {
 	if (unlikely(IS_PRIVATE(inode)))
 		return -EOPNOTSUPP;
