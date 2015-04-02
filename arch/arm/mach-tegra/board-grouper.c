@@ -1118,22 +1118,22 @@ static void __init tegra_grouper_init(void)
 	grouper_setup_bluesleep();
 	grouper_pins_state_init();
 	grouper_emc_init();
-//	tegra_release_bootloader_fb();
+	tegra_release_bootloader_fb();
 #ifdef CONFIG_TEGRA_WDT_RECOVERY
 	tegra_wdt_recovery_init();
 #endif
 }
 
-static void __init grouper_ramconsole_reserve(unsigned long size)
+/*static void __init grouper_ramconsole_reserve(unsigned long size)
 {
 	tegra_ram_console_debug_reserve(SZ_1M);
-}
+}*/
 
 static void __init tegra_grouper_reserve(void)
 {
 #if defined(CONFIG_NVMAP_CONVERT_CARVEOUT_TO_IOVMM)
 	/* support 1920X1200 with 24bpp */
-	tegra_reserve(0, SZ_8M + SZ_1M, SZ_8M + SZ_1M);
+	tegra_reserve(0, SZ_64K, SZ_64K);
 #else
 	tegra_reserve(SZ_128M, SZ_8M, SZ_8M);
 #endif
