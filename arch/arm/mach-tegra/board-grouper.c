@@ -1137,7 +1137,7 @@ static void __init tegra_grouper_reserve(void)
 #else
 	tegra_reserve(SZ_128M, SZ_8M, SZ_8M);
 #endif
-	grouper_ramconsole_reserve(SZ_1M);
+	//grouper_ramconsole_reserve(SZ_1M);
 }
 
 MACHINE_START(GROUPER, "grouper")
